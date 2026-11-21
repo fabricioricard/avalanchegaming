@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Avalanche Mousepads</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#030814">
 <meta name="description" content="Mousepads gamer coleção Avalanche. Lobo e Dragão de gelo por R$ 99. Pague com Pix.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -168,6 +170,9 @@ footer .cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
 #lightbox.on{display:flex}#lightbox img{max-width:100%;max-height:100%;border-radius:14px}
 #toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,80px);background:var(--ok);color:#012;padding:10px 20px;border-radius:30px;font-weight:700;transition:.3s;z-index:100}
 #toast.on{transform:translate(-50%,0)}
+#top{position:fixed;right:22px;bottom:22px;width:50px;height:50px;border-radius:50%;border:1px solid var(--ice);background:#061226e6;backdrop-filter:blur(8px);color:var(--ice);font-size:1.4rem;cursor:pointer;z-index:50;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(16px);transition:.3s;box-shadow:0 0 24px #2b8cff44}
+#top.on{opacity:1;visibility:visible;transform:none}
+#top:hover{background:linear-gradient(135deg,var(--ice),var(--ice2));color:#021021;box-shadow:0 0 34px #4cc3ff99}
 </style>
 </head>
 <body>
@@ -196,8 +201,8 @@ footer .cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
       </div>
       <div class="stats">
         <div><b>R$ 99</b><span>Qualquer modelo</span></div>
+        <div><b>Grátis</b><span>Frete via Correios</span></div>
         <div><b>Pix</b><span>Pagamento rápido</span></div>
-        <div><b>2</b><span>Artes exclusivas</span></div>
       </div>
     </div>
     <div class="stage">
@@ -220,7 +225,7 @@ footer .cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
       <div class="perk"><div class="ic">🎨</div><b>Arte exclusiva</b><span>Estampa em alta resolução com cores vivas, só da coleção Avalanche.</span></div>
       <div class="perk"><div class="ic">🧵</div><b>Borda costurada</b><span>Acabamento reforçado nas bordas para durar mais.</span></div>
       <div class="perk"><div class="ic">⚡</div><b>Pix na hora</b><span>QR Code gerado no site com o valor do seu pedido.</span></div>
-      <div class="perk"><div class="ic">💬</div><b>Atendimento direto</b><span>Envie o comprovante e acompanhe tudo pelo WhatsApp.</span></div>
+      <div class="perk"><div class="ic">📦</div><b>Frete grátis</b><span>Enviamos pelos Correios, sem custo de frete para você.</span></div>
     </div>
   </section>
 
@@ -302,6 +307,7 @@ footer .cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
 
 <div id="lightbox"><img alt=""></div>
 <div id="toast"></div>
+<button id="top" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
 
 <script>
 /* ============ CONFIGURAÇÃO: edite aqui ============ */
@@ -311,7 +317,7 @@ const CONFIG = {
   pixName:  "AVALANCHE MOUSEPADS", // nome do recebedor (até 25 caracteres)
   pixCity:  "SALVADOR",            // cidade do recebedor (até 15 caracteres)
   price:    99,
-  frete:    null                   // null = "a combinar pelo WhatsApp" | 0 = grátis | 15 = R$ 15,00 fixo
+  frete:    0                      // 0 = grátis (loja cobre) | null = "a combinar pelo WhatsApp" | 15 = R$ 15,00 fixo
 };
 const PRODUCTS = [
   { id:"lobo",   name:"Lobo de Gelo",   badge:"Mais vendido", desc:"O predador do gelo em plena investida, com armadura de cristal e aurora boreal ao fundo.", tags:["Borda costurada","Arte exclusiva","Tema gelo"], img:"images/lobo.png" },
@@ -325,7 +331,7 @@ let cart = {};
 try { cart = JSON.parse(localStorage.getItem("cart")||"{}"); } catch(e){}
 
 $("#year").textContent = new Date().getFullYear();
-$("#mq").innerHTML = Array(12).fill("<span>Avalanche</span><span>Mousepad gamer</span><span>R$ 99</span><span>Pix</span>").join("");
+$("#mq").innerHTML = Array(12).fill("<span>Avalanche</span><span>Mousepad gamer</span><span>R$ 99</span><span>Frete grátis</span><span>Pix</span>").join("");
 
 $("#grid").innerHTML = PRODUCTS.map(p=>`
   <article class="card">
@@ -338,18 +344,19 @@ $("#grid").innerHTML = PRODUCTS.map(p=>`
       <p>${p.desc}</p>
       <div class="tags">${p.tags.map(t=>`<span>${t}</span>`).join("")}</div>
       <div class="row">
-        <div class="price">${brl(CONFIG.price)}<small>no Pix</small></div>
+        <div class="price">${brl(CONFIG.price)}<small>no Pix · frete grátis</small></div>
         <button class="btn" data-add="${p.id}">Comprar</button>
       </div>
     </div>
   </article>`).join("");
 
 /* frete */
-const freteTxt = CONFIG.frete===null ? "Frete a combinar pelo WhatsApp" : (CONFIG.frete===0 ? "Frete grátis" : "Frete: "+brl(CONFIG.frete));
+const freteTxt = CONFIG.frete===null ? "Frete a combinar pelo WhatsApp" : (CONFIG.frete===0 ? "Frete grátis via Correios" : "Frete via Correios: "+brl(CONFIG.frete));
 $("#freteNote").textContent = CONFIG.frete===null
   ? "O frete será combinado pelo WhatsApp após o pedido. O Pix cobra apenas os produtos."
-  : freteTxt+" (já incluído no total).";
-if(CONFIG.frete!==null) $("#faqFrete").textContent = freteTxt+". O prazo é informado pelo WhatsApp após a confirmação do pagamento.";
+  : (CONFIG.frete===0 ? "🎁 Frete grátis via Correios. O valor do Pix é só o dos produtos." : freteTxt+" (já incluído no total).");
+if(CONFIG.frete!==null) $("#faqFrete").textContent = freteTxt+". Após a confirmação do pagamento, enviamos o código de rastreio pelo WhatsApp.";
+$("#sub").parentElement.insertAdjacentHTML("afterend", `<div><span>Frete</span><span>${CONFIG.frete===null?"A combinar":(CONFIG.frete===0?"Grátis":brl(CONFIG.frete))}</span></div>`);
 
 /* carrinho */
 const qtyTotal = () => Object.values(cart).reduce((a,b)=>a+b,0);
@@ -471,6 +478,11 @@ $("#sendProof").onclick = () => {
     requestAnimationFrame(loop);
   })();
 })();
+
+/* voltar ao topo */
+const topBtn = $("#top");
+addEventListener("scroll",()=>topBtn.classList.toggle("on",scrollY>600),{passive:true});
+topBtn.onclick = () => scrollTo({top:0,behavior:"smooth"});
 
 render();
 </script>
