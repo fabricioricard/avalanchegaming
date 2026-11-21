@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#030814">
+<title>Meu pedido | Avalanche</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#030814;--card:#0a1a33cc;--line:#16345f;--ice:#7fdcff;--ice2:#2b8cff;--text:#eaf6ff;--muted:#8fb2d0;--ok:#3ddc97;--bad:#ff6b7a;--warn:#ffd166}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.55;min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.logo{font-family:Rajdhani,sans-serif;text-transform:uppercase;letter-spacing:.04em}
+a{color:inherit;text-decoration:none}
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(900px 500px at 15% -5%,#00e6c433,transparent 60%),radial-gradient(900px 600px at 85% 0%,#2b8cff40,transparent 60%)}
+header{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:14px 6vw;background:#030814b3;backdrop-filter:blur(14px);border-bottom:1px solid #16345f88}
+.logo{font-size:1.6rem;font-weight:700;color:#fff;display:flex;gap:10px}
+.logo i{font-style:normal;color:var(--ice)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--ice),var(--ice2));color:#021021;padding:12px 22px;border-radius:12px;font-weight:700;border:0;cursor:pointer;font-size:.95rem;box-shadow:0 8px 28px #2b8cff55;transition:.25s}
+.btn:hover{transform:translateY(-2px)}
+.btn[disabled]{opacity:.5;cursor:not-allowed;transform:none}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--ice)}
+.btn.ok{background:linear-gradient(135deg,#3ddc97,#16a870);box-shadow:0 8px 28px #3ddc9755}
+.wrap{position:relative;z-index:2;max-width:720px;margin:0 auto;padding:40px 5vw 80px}
+.muted{color:var(--muted)}
+h1{font-size:2.2rem;color:#fff}
+.sub{color:var(--muted);margin:4px 0 26px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;margin-bottom:20px;backdrop-filter:blur(8px)}
+.badge{display:inline-block;padding:4px 14px;border-radius:30px;font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid}
+.b-pending{color:var(--warn);border-color:#ffd16655;background:#ffd1661a}
+.b-paid,.b-shipped,.b-delivered{color:var(--ok);border-color:#3ddc9755;background:#3ddc971a}
+.b-cancelled{color:var(--bad);border-color:#ff6b7a55;background:#ff6b7a1a}
+.tl{list-style:none;position:relative;margin-top:8px}
+.tl li{position:relative;padding:0 0 26px 46px}
+.tl li:last-child{padding-bottom:0}
+.tl li::before{content:"";position:absolute;left:15px;top:30px;bottom:0;width:2px;background:var(--line)}
+.tl li:last-child::before{display:none}
+.tl li.done::before{background:var(--ok)}
+.dot{position:absolute;left:0;top:0;width:32px;height:32px;border-radius:50%;border:2px solid var(--line);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--muted)}
+.tl li.done .dot{background:var(--ok);border-color:var(--ok);color:#012;font-weight:700}
+.tl li.now .dot{border-color:var(--ice);color:var(--ice);box-shadow:0 0 18px #4cc3ff66}
+.tl b{display:block;font-family:Rajdhani;text-transform:uppercase;font-size:1.2rem;letter-spacing:.04em}
+.tl li:not(.done):not(.now) b{color:var(--muted)}
+.tl small{color:var(--muted)}
+.track{background:#0a1a33;border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:12px}
+.track .code{font-family:Rajdhani;font-size:1.7rem;font-weight:700;color:var(--ice);letter-spacing:.08em}
+.track .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border:0}
+.tot{display:flex;justify-content:space-between;font-weight:700;font-size:1.2rem;margin-top:10px}
+.qr{text-align:center}
+.qr .img{background:#fff;padding:12px;border-radius:14px;display:inline-block;margin:10px 0}
+.qr .img img,.qr .img canvas{display:block}
+.pc{background:#0a1a33;border:1px solid var(--line);border-radius:12px;padding:10px;font-size:.72rem;word-break:break-all;color:var(--muted);max-height:70px;overflow:auto;text-align:left;margin:6px 0 12px}
+.qr .btn{width:100%;margin-top:8px}
+.spin{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--ice);animation:sp 1s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,80px);background:var(--ok);color:#012;padding:10px 20px;border-radius:30px;font-weight:700;transition:.3s;z-index:100}
+#toast.on{transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="aurora"></div>
+<header>
+  <a class="logo" href="./"><i>❄</i> Avalanche</a>
+  <a class="btn ghost" href="./">Voltar à loja</a>
+</header>
+<main class="wrap" id="app"><p class="muted">Carregando seu pedido...</p></main>
+<div id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const brl = v => Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const dt = t => t ? new Date(t).toLocaleString("pt-BR",{dateStyle:"short",timeStyle:"short"}) : "";
+const toast = t => { const el=$("#toast"); el.textContent=t; el.classList.add("on"); setTimeout(()=>el.classList.remove("on"),2000); };
+const copy = async (txt,msg) => { try{ await navigator.clipboard.writeText(txt); toast(msg); }catch(_){ toast("Selecione e copie o código"); } };
+
+const params = new URLSearchParams(location.search);
+let id = params.get("id");
+try{ if(!id) id = localStorage.getItem("lastOrder"); }catch(_){}
+
+const LABEL = { pending:"Aguardando pagamento", paid:"Pagamento confirmado", shipped:"Enviado", delivered:"Entregue", cancelled:"Cancelado" };
+let timer = null, qrFor = null;
+
+const notFound = '<div class="card"><h1>Pedido não encontrado</h1><p class="sub">Confira o link ou volte à loja.</p><a class="btn" href="./">Ir para a loja</a></div>';
+
+async function load(){
+  if(!id){ $("#app").innerHTML = notFound; return; }
+  try{
+    const r = await fetch("/api/order?id="+encodeURIComponent(id),{cache:"no-store"});
+    if(r.status===404){ $("#app").innerHTML = notFound; return; }
+    if(!r.ok) throw new Error();
+    render(await r.json());
+  }catch(_){
+    if(!$("#app").dataset.ok) $("#app").innerHTML = '<div class="card"><p class="muted">Não foi possível carregar agora. Tentando de novo...</p></div>';
+    clearTimeout(timer); timer = setTimeout(load, 8000);
+  }
+}
+
+async function claim(){
+  const b = $("#claim"); b.disabled = true; b.textContent = "Enviando...";
+  try{ await fetch("/api/order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id,action:"claim"})}); }catch(_){}
+  load();
+}
+
+function render(o){
+  const cur = {pending:1, paid:2, shipped:3, delivered:4}[o.status];
+  const steps = [
+    ["Pedido recebido", o.createdAt],
+    ["Pagamento confirmado", o.paidAt],
+    ["Enviado pelos Correios", o.shippedAt],
+    ["Entregue", o.deliveredAt]
+  ];
+  let tl = "";
+  if(o.status !== "cancelled"){
+    tl = '<ul class="tl">' + steps.map((s,i)=>{
+      const cls = i < cur ? "done" : (i === cur ? "now" : "");
+      const mark = cls==="done" ? "✓" : (i+1);
+      let note = "";
+      if(cls==="done") note = esc(dt(s[1]));
+      else if(cls==="now") note = (i===1 && o.claimedAt) ? "Conferindo o seu pagamento..." : "Em andamento";
+      return `<li class="${cls}"><div class="dot">${mark}</div><b>${s[0]}</b><small>${note}</small></li>`;
+    }).join("") + "</ul>";
+  }
+
+  let top = "";
+  if(o.status === "pending" && o.qr){
+    top = `<div class="card qr">
+      <h3 style="font-size:1.5rem">Pague com Pix</h3>
+      <div style="font-family:Rajdhani;font-size:2.2rem;font-weight:700;color:var(--ice)">${brl(o.total)}</div>
+      <div class="img" id="qrbox"></div>
+      <div class="pc">${esc(o.qr.code)}</div>
+      <button class="btn ghost" id="copy">Copiar Pix copia e cola</button>
+      ${o.claimedAt
+        ? `<p class="muted" style="margin-top:14px;font-size:.92rem"><span class="spin"></span>Recebemos o seu aviso. Estamos conferindo o pagamento. Esta página atualiza sozinha.</p>`
+        : `<button class="btn ok" id="claim">Já paguei</button>
+           <p class="muted" style="margin-top:12px;font-size:.88rem">Depois de pagar no app do seu banco, clique em "Já paguei".</p>`}
+    </div>`;
+  } else if(o.status === "cancelled"){
+    top = `<div class="card"><h3 style="font-size:1.5rem;color:var(--bad)">Pedido cancelado</h3>
+      <p class="muted" style="margin:6px 0 14px">Esse pedido não foi pago. Se você já pagou, fale com a loja. Se não, faça um novo pedido.</p><a class="btn" href="./">Voltar à loja</a></div>`;
+  }
+
+  let track = "";
+  if(o.tracking){
+    track = `<div class="track"><small class="muted">Código de rastreio (Correios)</small><div class="code">${esc(o.tracking)}</div>
+      <div class="row"><button class="btn ghost" id="copyT">Copiar código</button>
+      <a class="btn" target="_blank" rel="noopener" href="https://rastreamento.correios.com.br/app/index.php">Rastrear nos Correios</a></div></div>`;
+  } else if(o.status === "paid"){
+    track = '<p class="muted" style="margin-top:14px;font-size:.92rem">Estamos preparando o seu pedido. O código de rastreio aparece aqui assim que ele for enviado.</p>';
+  }
+
+  const wa = o.whatsapp ? `<a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/${esc(o.whatsapp)}?text=${encodeURIComponent("Olá! Dúvida sobre o pedido #"+o.short)}">Falar com a loja</a>` : "";
+
+  $("#app").dataset.ok = "1";
+  $("#app").innerHTML = `
+    <h1>Pedido #${esc(o.short)}</h1>
+    <p class="sub">Olá, ${esc(o.firstName)}. <span class="badge b-${esc(o.status)}">${LABEL[o.status]||esc(o.status)}</span></p>
+    ${top}
+    ${o.status!=="cancelled" ? `<div class="card"><h3 style="font-size:1.4rem;margin-bottom:12px">Acompanhamento</h3>${tl}${track}</div>` : ""}
+    <div class="card">
+      <h3 style="font-size:1.4rem;margin-bottom:8px">Resumo</h3>
+      ${o.items.map(i=>`<div class="item"><span>${i.qty}x ${esc(i.name)}</span><span>${brl(i.price*i.qty)}</span></div>`).join("")}
+      <div class="item"><span class="muted">Frete (Correios)</span><span>${o.shipping ? brl(o.shipping) : "Grátis"}</span></div>
+      <div class="tot"><span>Total</span><span>${brl(o.total)}</span></div>
+      <p class="muted" style="margin-top:10px;font-size:.88rem">Entrega em ${esc(o.city)}/${esc(o.state)}</p>
+    </div>
+    <div class="actions">${wa}</div>`;
+
+  const qb = $("#qrbox");
+  if(qb && o.qr){ new QRCode(qb,{text:o.qr.code,width:220,height:220,correctLevel:QRCode.CorrectLevel.M}); }
+  const c = $("#copy"); if(c) c.onclick = () => copy(o.qr.code,"Pix copiado!");
+  const t = $("#copyT"); if(t) t.onclick = () => copy(o.tracking,"Código copiado!");
+  const cl = $("#claim"); if(cl) cl.onclick = claim;
+
+  clearTimeout(timer);
+  if(o.status !== "delivered" && o.status !== "cancelled") timer = setTimeout(load, o.status==="pending" ? 6000 : 30000);
+}
+load();
+</script>
+</body>
+</html>

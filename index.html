@@ -9,123 +9,154 @@
 <meta name="description" content="Mousepads gamer coleção Avalanche. Lobo e Dragão de gelo por R$ 99. Pague com Pix.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#030814;--bg2:#071428;--card:#0a1a33cc;--line:#16345f;
+  --bg:#040a16;--bg2:#071428;--card:#08172d;--line:#16345f;
   --ice:#7fdcff;--ice2:#2b8cff;--glow:#4cc3ff;
   --text:#eaf6ff;--muted:#8fb2d0;--ok:#3ddc97;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.55;overflow-x:hidden}
-h1,h2,h3,.logo,.price,.num{font-family:Rajdhani,sans-serif;text-transform:uppercase;letter-spacing:.04em}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+h1,h2,h3,.logo,.price,.num,.btn,.kicker,.stats b{font-family:Oswald,Impact,sans-serif;text-transform:uppercase;letter-spacing:.04em}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 button{font-family:inherit}
-#snow{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.7}
-.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-   radial-gradient(900px 500px at 15% -5%,#00e6c433,transparent 60%),
-   radial-gradient(900px 600px at 85% 0%,#2b8cff40,transparent 60%),
-   radial-gradient(800px 600px at 50% 110%,#1b4fd633,transparent 60%);
-  animation:drift 14s ease-in-out infinite alternate}
-@keyframes drift{to{transform:translateY(25px) scale(1.06);filter:hue-rotate(18deg)}}
+#snow{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.35}
+.bgfx{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(1200px 700px at 50% -10%,#0f3a6b66,transparent 60%),linear-gradient(180deg,#040a16,#050d1c 50%,#040a16)}
 main,header,footer,section{position:relative;z-index:2}
+.halo{position:absolute;border-radius:50%;pointer-events:none;z-index:-1;
+  background:radial-gradient(closest-side,#2b8cff4d,#2b8cff14 62%,transparent)}
 
 /* header */
-header{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:14px 6vw;
-  background:#030814b3;backdrop-filter:blur(14px);border-bottom:1px solid #16345f88}
-.logo{font-size:1.7rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:10px}
+header{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 6vw;height:76px;
+  background:#040a16cc;backdrop-filter:blur(14px);border-bottom:1px solid #16345f99}
+header::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--ice),transparent);opacity:.5}
+.logo{font-size:1.8rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:10px;letter-spacing:.16em}
 .logo i{font-style:normal;color:var(--ice);text-shadow:0 0 18px var(--glow)}
-nav{display:flex;gap:26px;align-items:center}
-nav a.l{color:var(--muted);font-weight:600;font-size:.95rem;transition:.2s}
+nav{display:flex;gap:28px;align-items:center}
+nav a.l{font-family:Oswald,Impact,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-weight:500;font-size:.95rem;color:var(--muted);transition:.2s}
 nav a.l:hover{color:var(--ice)}
-.cartbtn{position:relative;background:#0a1a33;border:1px solid var(--line);color:var(--text);padding:9px 16px;border-radius:12px;font-weight:600;cursor:pointer;font-size:.95rem;transition:.2s}
-.cartbtn:hover{border-color:var(--ice);box-shadow:0 0 20px #4cc3ff40}
-.cartbtn b{background:linear-gradient(135deg,var(--ice),var(--ice2));color:#021021;border-radius:20px;padding:1px 8px;margin-left:6px;font-size:.85rem}
-@media(max-width:720px){nav a.l{display:none}}
+.cartbtn{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid #2b8cff88;color:var(--text);padding:9px 20px;border-radius:999px;font-family:Oswald,Impact,sans-serif;text-transform:uppercase;letter-spacing:.1em;font-weight:500;cursor:pointer;font-size:.9rem;transition:.2s}
+.cartbtn:hover{border-color:var(--ice);background:#7fdcff14;box-shadow:0 0 24px #4cc3ff40}
+.cartbtn b{background:linear-gradient(135deg,var(--ice),var(--ice2));color:#021021;border-radius:999px;min-width:22px;text-align:center;padding:0 7px;font-size:.82rem;font-family:Inter,sans-serif;letter-spacing:0}
+@media(max-width:900px){nav a.l:not(#myOrder){display:none}nav{gap:14px}}
+@media(max-width:540px){nav .btn{display:none}.logo{font-size:1.5rem}}
 
 /* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--ice),var(--ice2));color:#021021;padding:14px 28px;border-radius:14px;font-weight:700;border:0;cursor:pointer;font-size:1rem;box-shadow:0 10px 34px #2b8cff55;transition:.25s}
-.btn:hover{transform:translateY(-2px);box-shadow:0 14px 44px #2b8cff88}
-.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line);box-shadow:none}
-.btn.ghost:hover{border-color:var(--ice);box-shadow:0 0 24px #4cc3ff30}
-.btn.sm{padding:10px 18px;font-size:.92rem;border-radius:12px}
-.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--ice),var(--ice2));color:#021021;padding:14px 32px;border-radius:999px;font-weight:600;border:0;cursor:pointer;font-size:1rem;letter-spacing:.1em;box-shadow:0 10px 34px #2b8cff55;transition:.25s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 44px #2b8cff99}
+.btn.go::after{content:"→";font-family:Inter,sans-serif;transition:.25s}
+.btn.go:hover::after{transform:translateX(4px)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid #2b8cff88;box-shadow:none}
+.btn.ghost:hover{border-color:var(--ice);background:#7fdcff14;box-shadow:0 0 28px #4cc3ff40}
+.btn.sm{padding:10px 24px;font-size:.88rem}
+.btn[disabled]{opacity:.5;cursor:not-allowed;transform:none}
+
+/* moldura (estilo painel de jogo): cantos cortados + borda dupla */
+.fw{position:relative;filter:drop-shadow(0 22px 46px #000a) drop-shadow(0 0 28px #2b8cff55)}
+.frame{position:relative;display:block;padding:3px;background:linear-gradient(135deg,var(--ice),#1b4f93 45%,var(--ice2));
+  clip-path:polygon(20px 0,calc(100% - 20px) 0,100% 20px,100% calc(100% - 20px),calc(100% - 20px) 100%,20px 100%,0 calc(100% - 20px),0 20px)}
+.frame .in{position:relative;display:block;overflow:hidden;background:linear-gradient(135deg,#0f3a6b,#06142a);
+  clip-path:polygon(17px 0,calc(100% - 17px) 0,100% 17px,100% calc(100% - 17px),calc(100% - 17px) 100%,17px 100%,0 calc(100% - 17px),0 17px)}
+.frame .in::after{content:"";position:absolute;inset:10px;border:1px solid #7fdcff55;pointer-events:none}
+.frame img{width:100%;aspect-ratio:16/9;object-fit:cover;transition:.6s}
 
 /* hero */
-.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:50px;align-items:center;max-width:1250px;margin:auto;padding:80px 6vw 50px}
-.tag{display:inline-block;border:1px solid var(--line);background:#0a1a3380;color:var(--ice);padding:6px 14px;border-radius:30px;font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
-.hero h1{font-size:clamp(3rem,7vw,5.6rem);line-height:.95;margin:18px 0;font-weight:700;
-  background:linear-gradient(180deg,#fff 20%,var(--ice) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 30px #4cc3ff44)}
-.hero p{color:var(--muted);font-size:1.12rem;max-width:520px;margin-bottom:28px}
-.hero .cta{display:flex;gap:14px;flex-wrap:wrap}
-.stats{display:flex;gap:34px;margin-top:38px}
-.stats div b{display:block;font-family:Rajdhani;font-size:1.9rem;color:#fff}
-.stats div span{color:var(--muted);font-size:.85rem}
-.stage{position:relative;height:430px;perspective:1000px}
-.stage .glow{position:absolute;inset:10% 5%;background:radial-gradient(closest-side,#2b8cff66,transparent);filter:blur(30px)}
-.stage .pad{position:absolute;width:78%;aspect-ratio:16/9;border-radius:20px;overflow:hidden;border:2px solid #1d4a85;box-shadow:0 30px 70px #000a,0 0 50px #2b8cff44;background:linear-gradient(135deg,#0f3a6b,#06142a);transition:.5s}
-.stage .a{top:4%;left:0;transform:rotateY(14deg) rotateZ(-6deg);animation:float 6s ease-in-out infinite}
-.stage .b{bottom:2%;right:0;transform:rotateY(-14deg) rotateZ(5deg);animation:float 7s ease-in-out -2s infinite}
-.stage:hover .a{transform:rotateY(4deg) rotateZ(-3deg) translateX(-8px)}
-.stage:hover .b{transform:rotateY(-4deg) rotateZ(3deg) translateX(8px)}
-@keyframes float{50%{translate:0 -14px}}
-.pad img{width:100%;height:100%;object-fit:cover}
-@media(max-width:900px){.hero{grid-template-columns:1fr;padding-top:50px}.stage{height:340px}}
+.hero{position:relative;max-width:1280px;margin:auto;padding:90px 6vw 70px;display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:10px;border:1px solid #2b8cff88;background:#0a1f3f99;color:var(--ice);padding:7px 18px;border-radius:999px;font-size:.8rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ice);box-shadow:0 0 12px var(--ice)}
+.hero h1{font-size:clamp(2.8rem,4.9vw,4.7rem);line-height:.95;margin:22px 0 20px;font-weight:700;color:#fff;text-shadow:0 0 50px #2b8cff66}
+.hero h1 em{font-style:normal;color:transparent;-webkit-text-stroke:2px var(--ice);text-shadow:none}
+.hero .lead{color:var(--muted);font-size:1.12rem;max-width:520px;margin-bottom:30px}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.stats{display:flex;gap:44px;margin-top:46px;flex-wrap:wrap}
+.stats b{display:block;font-size:2.3rem;font-weight:700;color:#fff;line-height:1}
+.stats span{color:var(--muted);font-size:.85rem}
+.art{position:relative;min-height:450px}
+.art .halo{width:640px;height:640px;left:50%;top:50%;transform:translate(-50%,-50%)}
+.art .fw{position:absolute}
+.art .fw.a{top:0;left:0;width:84%;transform:rotate(-4deg);animation:float 7s ease-in-out infinite}
+.art .fw.b{bottom:0;right:0;width:68%;transform:rotate(3deg);animation:float 8s ease-in-out -3s infinite}
+@keyframes float{50%{translate:0 -12px}}
 
-/* marquee */
-.marquee{overflow:hidden;border-block:1px solid var(--line);background:#06122480;margin:30px 0}
-.marquee div{display:flex;gap:50px;width:max-content;padding:14px 0;animation:mq 28s linear infinite;font-family:Rajdhani;text-transform:uppercase;letter-spacing:.14em;font-weight:600;color:var(--muted)}
-.marquee span::before{content:"❄";color:var(--ice);margin-right:50px}
-@keyframes mq{to{transform:translateX(-50%)}}
+/* faixa de confiança */
+.trust{border-block:1px solid var(--line);background:linear-gradient(90deg,transparent,#0a1f3f80,transparent)}
+.trust .row{max-width:1280px;margin:auto;padding:22px 6vw;display:flex;justify-content:space-between;align-items:center;gap:20px 30px;flex-wrap:wrap}
+.trust span{display:flex;align-items:center;gap:10px;font-family:Oswald,Impact,sans-serif;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-size:.95rem}
+.trust span::before{content:"❄";color:var(--ice)}
 
-/* sections */
-section{padding:70px 6vw}
-.head{text-align:center;margin-bottom:44px}
-.head h2{font-size:clamp(2rem,4.5vw,3rem);color:#fff}
-.head p{color:var(--muted);margin-top:8px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:34px;max-width:1150px;margin:auto}
-.card{background:var(--card);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:24px;overflow:hidden;transition:.35s;position:relative}
-.card:hover{transform:translateY(-8px);border-color:var(--ice);box-shadow:0 20px 70px #2b8cff40}
-.card .img{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#0f3a6b,#06142a);overflow:hidden;cursor:zoom-in}
-.card .img img{width:100%;height:100%;object-fit:cover;transition:.6s}
-.card:hover .img img{transform:scale(1.07)}
-.card .badge{position:absolute;top:14px;left:14px;background:#021021cc;border:1px solid var(--ice);color:var(--ice);padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-.card .body{padding:24px}
-.card h3{font-size:1.7rem;color:#fff}
-.card p{color:var(--muted);margin:6px 0 16px;font-size:.96rem}
-.tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.tags span{font-size:.78rem;color:var(--ice);background:#7fdcff14;border:1px solid #7fdcff33;padding:3px 10px;border-radius:20px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.price{font-size:2.3rem;font-weight:700;color:var(--ice);text-shadow:0 0 22px #4cc3ff55;line-height:1}
-.price small{display:block;font-family:Inter;text-transform:none;letter-spacing:0;font-size:.74rem;color:var(--ok);font-weight:600;margin-top:4px}
+/* seções */
+section{padding:90px 6vw}
+.head{text-align:center;margin-bottom:56px}
+.head .kicker{color:var(--ice);font-size:.9rem;letter-spacing:.32em;font-weight:500}
+.head h2{font-size:clamp(2.2rem,5vw,3.6rem);color:#fff;line-height:1.05;margin-top:8px}
+.head p{color:var(--muted);margin-top:10px}
+.head::after{content:"";display:block;width:90px;height:3px;margin:22px auto 0;background:linear-gradient(90deg,transparent,var(--ice),transparent)}
 
-/* steps / perks */
-.perks,.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;max-width:1150px;margin:auto}
-.perk,.step{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;transition:.3s}
-.perk:hover,.step:hover{border-color:var(--ice);transform:translateY(-4px)}
-.perk .ic{font-size:1.8rem;margin-bottom:10px}
-.perk b,.step b{display:block;font-family:Rajdhani;text-transform:uppercase;font-size:1.3rem;color:#fff;letter-spacing:.04em}
+/* produtos: seções alternadas texto/foto */
+.prods{max-width:1180px;margin:auto;display:flex;flex-direction:column;gap:96px}
+.prod{position:relative;display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:center}
+.prod.rev .fw{order:2}
+.prod .frame{cursor:zoom-in;transition:.4s}
+.prod .fw:hover .frame{transform:scale(1.015)}
+.prod .fw:hover img{transform:scale(1.05)}
+.badge{position:absolute;top:24px;left:28px;z-index:3;background:#021021d9;border:1px solid var(--ice);color:var(--ice);padding:4px 14px;border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-family:Inter,sans-serif}
+.ptxt .kicker{color:var(--ice);letter-spacing:.32em;font-size:.85rem;font-weight:500}
+.ptxt h3{font-size:clamp(2.3rem,4.6vw,3.5rem);color:#fff;line-height:1;margin:10px 0 14px;font-weight:700}
+.ptxt p{color:var(--muted);max-width:480px;margin-bottom:18px}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.tags span{font-size:.78rem;color:var(--ice);border:1px solid #7fdcff44;background:#7fdcff12;padding:4px 14px;border-radius:999px}
+.buy{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+.price{font-size:3.1rem;font-weight:700;color:var(--ice);line-height:1;text-shadow:0 0 28px #4cc3ff66}
+.price small{display:block;font-family:Inter,sans-serif;text-transform:none;letter-spacing:0;font-size:.78rem;color:var(--ok);font-weight:600;margin-top:6px}
+
+/* diferenciais e passos: cartões com cantos em L */
+.perks,.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;max-width:1180px;margin:auto}
+.perk,.step{position:relative;background:linear-gradient(160deg,#0a1f3f99,#06142a99);border:1px solid var(--line);padding:30px 26px;transition:.3s}
+.perk::before,.step::before,.perk::after,.step::after{content:"";position:absolute;width:16px;height:16px;border:2px solid var(--ice)}
+.perk::before,.step::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
+.perk::after,.step::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.perk:hover,.step:hover{border-color:var(--ice2);transform:translateY(-5px);box-shadow:0 18px 50px #2b8cff33}
+.perk .ic{font-size:2rem;margin-bottom:12px}
+.perk b,.step b{display:block;font-family:Oswald,Impact,sans-serif;text-transform:uppercase;font-size:1.35rem;color:#fff;letter-spacing:.06em;margin-bottom:4px}
 .perk span,.step span{color:var(--muted);font-size:.93rem}
-.step .num{font-size:2.8rem;font-weight:700;color:transparent;-webkit-text-stroke:1px var(--ice);line-height:1}
+.step .num{font-size:3.4rem;font-weight:700;color:transparent;-webkit-text-stroke:1px var(--ice);line-height:1;margin-bottom:6px}
 
 /* faq */
-.faq{max-width:760px;margin:auto}
-details{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:12px;transition:.2s}
-details[open]{border-color:var(--ice)}
-summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between}
-summary::after{content:"+";color:var(--ice);font-size:1.3rem;line-height:1}
+.faq{max-width:800px;margin:auto}
+details{background:#0a1f3f66;border:1px solid var(--line);padding:20px 24px;margin-bottom:12px;transition:.2s}
+details[open]{border-color:var(--ice2)}
+summary{cursor:pointer;font-family:Oswald,Impact,sans-serif;text-transform:uppercase;letter-spacing:.06em;font-size:1.15rem;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--ice);font-size:1.5rem;line-height:1}
 details[open] summary::after{content:"–"}
-details p{color:var(--muted);margin-top:10px;font-size:.95rem}
+details p{color:var(--muted);margin-top:12px;font-size:.96rem}
 
-/* footer */
-footer{border-top:1px solid var(--line);background:#02060f;text-align:center;padding:46px 6vw 36px;margin-top:30px}
-footer .logo{justify-content:center;font-size:1.5rem}
-footer p{color:var(--muted);font-size:.9rem;margin-top:8px}
-footer .cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
+/* rodapé */
+footer{background:#02060f;border-top:1px solid var(--line);padding:60px 6vw 30px;margin-top:40px}
+footer::before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--ice),transparent)}
+.fgrid{max-width:1180px;margin:auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+footer h4{font-family:Oswald,Impact,sans-serif;text-transform:uppercase;letter-spacing:.16em;color:var(--ice);font-size:.9rem;margin-bottom:14px;font-weight:500}
+footer p,footer li{color:var(--muted);font-size:.92rem}
+footer ul{list-style:none;display:grid;gap:8px}
+footer a:hover{color:var(--ice)}
+.cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
+.fbottom{max-width:1180px;margin:40px auto 0;padding-top:22px;border-top:1px solid #16345f88;color:var(--muted);font-size:.85rem}
+
+@media(max-width:900px){
+  .hero,.prod{grid-template-columns:1fr}
+  .hero{padding-top:50px;gap:40px}
+  .prod{gap:30px}
+  .prod.rev .fw{order:0}
+  .art{min-height:340px}
+  .fgrid{grid-template-columns:1fr}
+  section{padding:64px 6vw}
+}
+@media(max-width:540px){.stats{gap:26px}.stats b{font-size:1.9rem}.hero .cta .btn{width:100%}}
 
 /* drawer + modal */
 #overlay{position:fixed;inset:0;background:#000b;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:.3s;z-index:60}
@@ -160,23 +191,28 @@ footer .cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
 #pix.on{display:flex}
 #pix .box{background:#061226;border:1px solid var(--ice);border-radius:24px;padding:28px;max-width:420px;width:100%;text-align:center;box-shadow:0 0 80px #2b8cff55;max-height:96vh;overflow:auto}
 #pix h2{font-size:1.8rem}
-#pix .v{font-family:Rajdhani;font-size:2.4rem;font-weight:700;color:var(--ice)}
+#pix .v{font-family:Oswald;font-size:2.4rem;font-weight:700;color:var(--ice)}
 #qr{background:#fff;padding:14px;border-radius:16px;display:inline-block;margin:14px 0}
 #qr img,#qr canvas{display:block}
 .code{background:#0a1a33;border:1px solid var(--line);border-radius:12px;padding:10px;font-size:.72rem;word-break:break-all;color:var(--muted);max-height:70px;overflow:auto;text-align:left;margin-bottom:12px}
 #pix .btn{width:100%;margin-top:8px}
 #pix .small{font-size:.8rem;color:var(--muted);margin-top:12px}
+.status{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-size:.9rem;margin:12px 0 4px}
+.spin{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--ice);animation:sp 1s linear infinite;flex:none}
+@keyframes sp{to{transform:rotate(360deg)}}
+.check{width:72px;height:72px;margin:0 auto 14px;border-radius:50%;background:linear-gradient(135deg,#3ddc97,#16a870);color:#012;font-size:2.4rem;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px #3ddc9766}
+#pixOk .btn{display:inline-flex;width:100%}
 #lightbox{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;z-index:90;cursor:zoom-out;padding:20px}
 #lightbox.on{display:flex}#lightbox img{max-width:100%;max-height:100%;border-radius:14px}
-#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,80px);background:var(--ok);color:#012;padding:10px 20px;border-radius:30px;font-weight:700;transition:.3s;z-index:100}
-#toast.on{transform:translate(-50%,0)}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,80px);background:var(--ok);color:#012;padding:10px 20px;border-radius:30px;font-weight:700;transition:.3s;z-index:100;opacity:0;pointer-events:none}
+#toast.on{transform:translate(-50%,0);opacity:1}
 #top{position:fixed;right:22px;bottom:22px;width:50px;height:50px;border-radius:50%;border:1px solid var(--ice);background:#061226e6;backdrop-filter:blur(8px);color:var(--ice);font-size:1.4rem;cursor:pointer;z-index:50;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(16px);transition:.3s;box-shadow:0 0 24px #2b8cff44}
 #top.on{opacity:1;visibility:visible;transform:none}
 #top:hover{background:linear-gradient(135deg,var(--ice),var(--ice2));color:#021021;box-shadow:0 0 34px #4cc3ff99}
 </style>
 </head>
 <body>
-<div class="aurora"></div>
+<div class="bgfx"></div>
 <canvas id="snow"></canvas>
 
 <header>
@@ -185,18 +221,21 @@ footer .cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
     <a class="l" href="#produtos">Produtos</a>
     <a class="l" href="#como">Como comprar</a>
     <a class="l" href="#faq">Dúvidas</a>
-    <button class="cartbtn" id="openCart">🛒 Carrinho <b id="count">0</b></button>
+    <a class="l" id="myOrder" href="#" style="display:none">Meu pedido</a>
+    <button class="cartbtn" id="openCart">Carrinho <b id="count">0</b></button>
+    <a class="btn sm" href="#produtos">Comprar</a>
   </nav>
 </header>
 
 <main>
   <div class="hero">
+    <div class="halo" style="width:720px;height:720px;left:-260px;top:-140px"></div>
     <div>
-      <span class="tag">❄ Coleção Avalanche</span>
-      <h1>Domine o gelo.<br>Domine o jogo.</h1>
-      <p>Mousepads gamer com arte exclusiva e borda costurada. Escolha o seu guardião do gelo e pague na hora com Pix.</p>
+      <span class="pill">Coleção Avalanche</span>
+      <h1>Domine o gelo.<br><em>Domine o jogo.</em></h1>
+      <p class="lead">Mousepads gamer com arte exclusiva e borda costurada. Escolha o seu guardião do gelo e pague na hora com Pix.</p>
       <div class="cta">
-        <a class="btn" href="#produtos">Ver mousepads</a>
+        <a class="btn go" href="#produtos">Ver mousepads</a>
         <a class="btn ghost" href="#como">Como comprar</a>
       </div>
       <div class="stats">
@@ -205,45 +244,47 @@ footer .cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
         <div><b>Pix</b><span>Pagamento rápido</span></div>
       </div>
     </div>
-    <div class="stage">
-      <div class="glow"></div>
-      <div class="pad a"><img src="images/lobo.png" alt="Mousepad Lobo de Gelo" onerror="this.style.display='none'"></div>
-      <div class="pad b"><img src="images/dragao.png" alt="Mousepad Dragão de Gelo" onerror="this.style.display='none'"></div>
+    <div class="art">
+      <div class="halo"></div>
+      <div class="fw a"><span class="frame"><span class="in"><img src="images/lobo.png" alt="Mousepad Lobo de Gelo" onerror="this.style.display='none'"></span></span></div>
+      <div class="fw b"><span class="frame"><span class="in"><img src="images/dragao.png" alt="Mousepad Dragão de Gelo" onerror="this.style.display='none'"></span></span></div>
     </div>
   </div>
 
-  <div class="marquee"><div id="mq"></div></div>
+  <div class="trust"><div class="row">
+    <span>Frete grátis</span><span>Pix direto</span><span>Borda costurada</span><span>Arte exclusiva</span><span>CNPJ 70.053.930/0001-99</span>
+  </div></div>
 
   <section id="produtos">
-    <div class="head"><h2>Escolha seu mousepad</h2><p>Duas artes, um preço. Clique na imagem para ampliar.</p></div>
-    <div class="grid" id="grid"></div>
+    <div class="head"><div class="kicker">Coleção</div><h2>Escolha seu mousepad</h2><p>Duas artes, um preço. Clique na imagem para ampliar.</p></div>
+    <div class="prods" id="grid"></div>
   </section>
 
   <section>
-    <div class="head"><h2>Feito para quem joga sério</h2></div>
+    <div class="head"><div class="kicker">Qualidade</div><h2>Feito para quem joga sério</h2></div>
     <div class="perks">
       <div class="perk"><div class="ic">🎨</div><b>Arte exclusiva</b><span>Estampa em alta resolução com cores vivas, só da coleção Avalanche.</span></div>
       <div class="perk"><div class="ic">🧵</div><b>Borda costurada</b><span>Acabamento reforçado nas bordas para durar mais.</span></div>
-      <div class="perk"><div class="ic">⚡</div><b>Pix na hora</b><span>QR Code gerado no site com o valor do seu pedido.</span></div>
+      <div class="perk"><div class="ic">⚡</div><b>Pix direto</b><span>QR Code com o valor exato do seu pedido.</span></div>
       <div class="perk"><div class="ic">📦</div><b>Frete grátis</b><span>Enviamos pelos Correios, sem custo de frete para você.</span></div>
     </div>
   </section>
 
   <section id="como">
-    <div class="head"><h2>Como comprar</h2></div>
+    <div class="head"><div class="kicker">Passo a passo</div><h2>Como comprar</h2></div>
     <div class="steps">
       <div class="step"><div class="num">01</div><b>Escolha</b><span>Adicione o Lobo, o Dragão ou os dois ao carrinho.</span></div>
       <div class="step"><div class="num">02</div><b>Informe a entrega</b><span>Digite seu CEP e o endereço será preenchido.</span></div>
       <div class="step"><div class="num">03</div><b>Pague com Pix</b><span>Escaneie o QR Code ou use o Pix copia e cola.</span></div>
-      <div class="step"><div class="num">04</div><b>Envie o comprovante</b><span>Um clique abre o WhatsApp com seu pedido pronto.</span></div>
+      <div class="step"><div class="num">04</div><b>Acompanhe o pedido</b><span>Veja a confirmação, o envio e o código de rastreio.</span></div>
     </div>
   </section>
 
   <section id="faq">
-    <div class="head"><h2>Dúvidas frequentes</h2></div>
+    <div class="head"><div class="kicker">Ajuda</div><h2>Dúvidas frequentes</h2></div>
     <div class="faq">
-      <details><summary>Como funciona o pagamento?</summary><p>O pagamento é feito por Pix. Ao finalizar o pedido, o site gera um QR Code com o valor exato. Depois de pagar, envie o comprovante pelo WhatsApp.</p></details>
-      <details><summary>Qual o prazo e o valor do frete?</summary><p id="faqFrete">Informaremos o valor e o prazo de entrega pelo WhatsApp assim que você finalizar o pedido.</p></details>
+      <details><summary>Como funciona o pagamento?</summary><p>O pagamento é feito por Pix. Ao finalizar o pedido, o site gera um QR Code com o valor exato. Depois de pagar, clique em "Já paguei". Nós conferimos o pagamento e você acompanha tudo em "Meu pedido", da confirmação até o código de rastreio.</p></details>
+      <details><summary>Qual o prazo e o valor do frete?</summary><p id="faqFrete">Frete grátis via Correios.</p></details>
       <details><summary>Os dois modelos têm o mesmo preço?</summary><p>Sim, cada mousepad custa R$ 99.</p></details>
       <details><summary>A loja tem CNPJ?</summary><p>Sim. CNPJ 70.053.930/0001-99.</p></details>
     </div>
@@ -251,9 +292,21 @@ footer .cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
 </main>
 
 <footer>
-  <div class="logo"><i>❄</i> Avalanche Mousepads</div>
-  <p class="cnpj">CNPJ 70.053.930/0001-99</p>
-  <p>© <span id="year"></span> Todos os direitos reservados.</p>
+  <div class="fgrid">
+    <div>
+      <div class="logo"><i>❄</i> Avalanche</div>
+      <p style="margin-top:14px;max-width:340px">Mousepads gamer com arte exclusiva. Pague com Pix e receba pelos Correios, com frete grátis.</p>
+    </div>
+    <div>
+      <h4>Loja</h4>
+      <ul><li><a href="#produtos">Produtos</a></li><li><a href="#como">Como comprar</a></li><li><a href="#faq">Dúvidas</a></li></ul>
+    </div>
+    <div>
+      <h4>Pagamento e entrega</h4>
+      <ul><li>Pix</li><li>Frete grátis pelos Correios</li><li class="cnpj">CNPJ 70.053.930/0001-99</li></ul>
+    </div>
+  </div>
+  <div class="fbottom">© <span id="year"></span> Avalanche Mousepads. Todos os direitos reservados.</div>
 </footer>
 
 <div id="overlay"></div>
@@ -273,6 +326,7 @@ footer .cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
     <button class="back" id="backCart">← Voltar ao carrinho</button>
     <form class="scroll" id="form" autocomplete="on">
       <div class="field"><label>Nome completo</label><input id="nome" required autocomplete="name"></div>
+      <div class="field"><label>E-mail</label><input id="email" type="email" required autocomplete="email" placeholder="voce@email.com"></div>
       <div class="field"><label>WhatsApp</label><input id="fone" required inputmode="tel" placeholder="(71) 90000-0000" autocomplete="tel"></div>
       <div class="field"><label>CEP</label><input id="cep" required inputmode="numeric" maxlength="9" placeholder="00000-000" autocomplete="postal-code"></div>
       <div class="field"><label>Rua</label><input id="rua" required autocomplete="address-line1"></div>
@@ -294,14 +348,23 @@ footer .cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
 
 <div id="pix">
   <div class="box">
-    <h2>Pague com Pix</h2>
-    <div class="v" id="pixValue"></div>
-    <div id="qr"></div>
-    <div class="code" id="pixCode"></div>
-    <button class="btn sm" id="copyPix">Copiar Pix copia e cola</button>
-    <button class="btn sm" id="sendProof" style="background:linear-gradient(135deg,#3ddc97,#16a870)">Já paguei: enviar comprovante</button>
-    <button class="btn ghost sm" id="closePix">Fechar</button>
-    <p class="small">Pedido <b id="orderId"></b>. Após o pagamento, envie o comprovante pelo WhatsApp para confirmarmos.</p>
+    <div id="pixWait">
+      <h2>Pague com Pix</h2>
+      <div class="v" id="pixValue"></div>
+      <div id="qr"></div>
+      <div class="code" id="pixCode"></div>
+      <button class="btn sm" id="copyPix">Copiar Pix copia e cola</button>
+      <button class="btn sm" id="paidBtn" style="background:linear-gradient(135deg,#3ddc97,#16a870)">Já paguei</button>
+      <div class="status"><span class="spin"></span> Depois de pagar, clique em "Já paguei". Vamos conferir o pagamento.</div>
+      <button class="btn ghost sm" id="closePix">Fechar</button>
+      <p class="small">Pedido <b id="orderId"></b>. Se fechar esta janela, volte pelo "Meu pedido" no topo.</p>
+    </div>
+    <div id="pixOk" style="display:none">
+      <div class="check">✓</div>
+      <h2>Pagamento confirmado!</h2>
+      <p class="small" style="font-size:.95rem;margin-bottom:14px">Conferimos o seu pagamento. Acompanhe o envio e o código de rastreio na página do pedido.</p>
+      <a class="btn" id="goOrder" href="#">Acompanhar pedido</a>
+    </div>
   </div>
 </div>
 
@@ -312,10 +375,6 @@ footer .cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
 <script>
 /* ============ CONFIGURAÇÃO: edite aqui ============ */
 const CONFIG = {
-  whatsapp: "5571900000000",       // número da loja: DDI+DDD+número, só dígitos
-  pixKey:   "SUA-CHAVE-PIX-AQUI",  // chave Pix (CNPJ, e-mail, telefone ou aleatória)
-  pixName:  "AVALANCHE MOUSEPADS", // nome do recebedor (até 25 caracteres)
-  pixCity:  "SALVADOR",            // cidade do recebedor (até 15 caracteres)
   price:    99,
   frete:    0                      // 0 = grátis (loja cobre) | null = "a combinar pelo WhatsApp" | 15 = R$ 15,00 fixo
 };
@@ -331,21 +390,23 @@ let cart = {};
 try { cart = JSON.parse(localStorage.getItem("cart")||"{}"); } catch(e){}
 
 $("#year").textContent = new Date().getFullYear();
-$("#mq").innerHTML = Array(12).fill("<span>Avalanche</span><span>Mousepad gamer</span><span>R$ 99</span><span>Frete grátis</span><span>Pix</span>").join("");
 
-$("#grid").innerHTML = PRODUCTS.map(p=>`
-  <article class="card">
-    <div class="img" data-zoom="${p.img}">
-      <img src="${p.img}" alt="Mousepad ${p.name}" onerror="this.style.display='none'">
-      <span class="badge">${p.badge}</span>
+$("#grid").innerHTML = PRODUCTS.map((p,i)=>`
+  <article class="prod ${i%2?"rev":""}">
+    <div class="fw">
+      <span class="frame" data-zoom="${p.img}">
+        <span class="in"><img src="${p.img}" alt="Mousepad ${p.name}" onerror="this.style.display='none'"></span>
+        <span class="badge">${p.badge}</span>
+      </span>
     </div>
-    <div class="body">
+    <div class="ptxt">
+      <div class="kicker">Coleção Avalanche · ${String(i+1).padStart(2,"0")}</div>
       <h3>${p.name}</h3>
       <p>${p.desc}</p>
       <div class="tags">${p.tags.map(t=>`<span>${t}</span>`).join("")}</div>
-      <div class="row">
+      <div class="buy">
         <div class="price">${brl(CONFIG.price)}<small>no Pix · frete grátis</small></div>
-        <button class="btn" data-add="${p.id}">Comprar</button>
+        <button class="btn go" data-add="${p.id}">Comprar</button>
       </div>
     </div>
   </article>`).join("");
@@ -355,7 +416,7 @@ const freteTxt = CONFIG.frete===null ? "Frete a combinar pelo WhatsApp" : (CONFI
 $("#freteNote").textContent = CONFIG.frete===null
   ? "O frete será combinado pelo WhatsApp após o pedido. O Pix cobra apenas os produtos."
   : (CONFIG.frete===0 ? "🎁 Frete grátis via Correios. O valor do Pix é só o dos produtos." : freteTxt+" (já incluído no total).");
-if(CONFIG.frete!==null) $("#faqFrete").textContent = freteTxt+". Após a confirmação do pagamento, enviamos o código de rastreio pelo WhatsApp.";
+if(CONFIG.frete!==null) $("#faqFrete").textContent = freteTxt+". Quando o pedido for enviado, o código de rastreio aparece na página do seu pedido.";
 $("#sub").parentElement.insertAdjacentHTML("afterend", `<div><span>Frete</span><span>${CONFIG.frete===null?"A combinar":(CONFIG.frete===0?"Grátis":brl(CONFIG.frete))}</span></div>`);
 
 /* carrinho */
@@ -415,55 +476,81 @@ $("#fone").addEventListener("input",e=>{
 });
 $("#uf").addEventListener("input",e=>e.target.value=e.target.value.toUpperCase());
 
-/* Pix (BR Code estático com valor) */
-const tlv = (id,val)=> id + String(val.length).padStart(2,"0") + val;
-const clean = (s,max)=> s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Za-z0-9 ]/g,"").toUpperCase().slice(0,max);
-function crc16(str){
-  let crc=0xFFFF;
-  for(let i=0;i<str.length;i++){
-    crc ^= str.charCodeAt(i)<<8;
-    for(let j=0;j<8;j++) crc = (crc&0x8000) ? ((crc<<1)^0x1021)&0xFFFF : (crc<<1)&0xFFFF;
-  }
-  return crc.toString(16).toUpperCase().padStart(4,"0");
+/* Pedido e Pix com confirmação automática */
+let poll = null, pollStart = 0, currentOrderId = null;
+const stopPoll = () => { clearInterval(poll); poll = null; };
+function updateMyOrder(){
+  let id = null; try{ id = localStorage.getItem("lastOrder"); }catch(_){}
+  const a = $("#myOrder");
+  if(id){ a.href = "order.html?id=" + encodeURIComponent(id); a.style.display = ""; }
 }
-function pixPayload(amount,txid){
-  const p =
-    tlv("00","01") + tlv("01","11") +
-    tlv("26", tlv("00","br.gov.bcb.pix") + tlv("01",CONFIG.pixKey.trim())) +
-    tlv("52","0000") + tlv("53","986") + tlv("54",amount.toFixed(2)) +
-    tlv("58","BR") + tlv("59",clean(CONFIG.pixName,25)) + tlv("60",clean(CONFIG.pixCity,15)) +
-    tlv("62", tlv("05",txid)) + "6304";
-  return p + crc16(p);
+function showPaid(id){
+  stopPoll();
+  $("#pixWait").style.display = "none";
+  $("#pixOk").style.display = "block";
+  $("#goOrder").href = "order.html?id=" + encodeURIComponent(id);
 }
-
-let order = null;
-$("#payBtn").onclick = () => {
+function showPix(d){
+  $("#pixWait").style.display = "block";
+  $("#pixOk").style.display = "none";
+  $("#orderId").textContent = "#" + d.short;
+  $("#pixValue").textContent = brl(d.total);
+  $("#pixCode").textContent = d.qrCode;
+  $("#qr").innerHTML = "";
+  new QRCode($("#qr"), {text:d.qrCode, width:220, height:220, correctLevel:QRCode.CorrectLevel.M});
+  currentOrderId = d.id;
+  $("#pix").classList.add("on");
+}
+function startPoll(id){
+  stopPoll(); pollStart = Date.now();
+  poll = setInterval(async () => {
+    if(Date.now() - pollStart > 65*60*1000) return stopPoll();
+    try{
+      const r = await fetch("/api/order?id=" + encodeURIComponent(id), {cache:"no-store"});
+      if(!r.ok) return;
+      const o = await r.json();
+      if(["paid","shipped","delivered"].includes(o.status)) showPaid(id);
+      else if(o.status === "cancelled"){ stopPoll(); $("#pix").classList.remove("on"); alert("O Pix expirou ou foi recusado. Faça um novo pedido."); }
+    }catch(_){}
+  }, 4000);
+}
+$("#payBtn").onclick = async () => {
   const form = $("#form");
   if(!form.reportValidity()) return;
   if(!qtyTotal()) return;
-  const id = "AV" + Date.now().toString(36).toUpperCase().slice(-8);
-  const valorPix = subTotal() + (CONFIG.frete||0);
-  const itens = Object.keys(cart).filter(i=>cart[i]>0).map(i=>{const p=PRODUCTS.find(x=>x.id===i);return `• ${cart[i]}x Mousepad ${p.name}`;});
-  order = { id, valorPix, itens };
-  const code = pixPayload(valorPix,id);
-  $("#orderId").textContent = id;
-  $("#pixValue").textContent = brl(valorPix);
-  $("#pixCode").textContent = code;
-  $("#qr").innerHTML = "";
-  new QRCode($("#qr"),{text:code,width:220,height:220,correctLevel:QRCode.CorrectLevel.M});
-  $("#pix").classList.add("on");
+  const btn = $("#payBtn");
+  btn.disabled = true; btn.textContent = "Gerando Pix...";
+  const g = id => $("#"+id).value.trim();
+  const body = {
+    items: Object.keys(cart).filter(i=>cart[i]>0).map(i=>({id:i, qty:cart[i]})),
+    customer: { name:g("nome"), email:g("email"), phone:g("fone") },
+    address: { cep:g("cep"), street:g("rua"), number:g("num"), complement:g("comp"), district:g("bairro"), city:g("cidade"), state:g("uf") }
+  };
+  try{
+    const r = await fetch("/api/checkout", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error || "Erro ao gerar o Pix.");
+    try{ localStorage.setItem("lastOrder", d.id); }catch(_){}
+    cart = {}; save(); drawer(false);
+    showPix(d); startPoll(d.id); updateMyOrder();
+  }catch(err){
+    alert(err.message || "Erro ao gerar o Pix.");
+  }finally{
+    btn.disabled = false; btn.textContent = "Gerar Pix";
+  }
 };
-$("#closePix").onclick = () => $("#pix").classList.remove("on");
+$("#closePix").onclick = () => { stopPoll(); $("#pix").classList.remove("on"); };
+$("#paidBtn").onclick = async () => {
+  const id = currentOrderId; if(!id) return;
+  const b = $("#paidBtn"); b.disabled = true; b.textContent = "Enviando...";
+  try{ await fetch("/api/order", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({id, action:"claim"})}); }catch(_){}
+  location.href = "order.html?id=" + encodeURIComponent(id);
+};
 $("#copyPix").onclick = async () => {
   try{ await navigator.clipboard.writeText($("#pixCode").textContent); toast("Pix copiado!"); }
   catch(_){ toast("Selecione e copie o código"); }
 };
-$("#sendProof").onclick = () => {
-  const g = id => $("#"+id).value.trim();
-  const end = `${g("rua")}, ${g("num")}${g("comp")?" - "+g("comp"):""}, ${g("bairro")}, ${g("cidade")}/${g("uf")}, CEP ${g("cep")}`;
-  const msg = `Olá! Fiz um pedido no site.\n\nPedido: ${order.id}\n${order.itens.join("\n")}\n\nValor pago no Pix: ${brl(order.valorPix)}\n${freteTxt}\n\nNome: ${g("nome")}\nWhatsApp: ${g("fone")}\nEndereço: ${end}\n\nSegue o comprovante:`;
-  window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`,"_blank");
-};
+updateMyOrder();
 
 /* neve */
 (function(){

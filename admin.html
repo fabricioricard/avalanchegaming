@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Painel | Avalanche</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#030814;--card:#0a1a33;--line:#16345f;--ice:#7fdcff;--ice2:#2b8cff;--text:#eaf6ff;--muted:#8fb2d0;--ok:#3ddc97;--bad:#ff6b7a;--warn:#ffd166}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
+h1,h2,h3{font-family:Rajdhani,sans-serif;text-transform:uppercase;letter-spacing:.04em}
+.wrap{max-width:980px;margin:0 auto;padding:28px 5vw 70px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+h1{font-size:2rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--ice),var(--ice2));color:#021021;padding:10px 18px;border-radius:10px;font-weight:700;border:0;cursor:pointer;font-size:.92rem}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+input{padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#06142a;color:var(--text);font-size:.95rem;outline:none}
+input:focus{border-color:var(--ice)}
+.login{max-width:360px;margin:12vh auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:12px}
+.err{color:var(--bad);font-size:.9rem;min-height:1.2em}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.tab{background:var(--card);border:1px solid var(--line);color:var(--muted);border-radius:30px;padding:7px 16px;cursor:pointer;font-weight:600;font-size:.9rem}
+.tab.on{color:#021021;background:var(--ice);border-color:var(--ice)}
+.order{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px}
+.order .top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.order .id{font-family:Rajdhani;font-size:1.4rem;font-weight:700}
+.badge{padding:3px 12px;border-radius:30px;font-size:.75rem;font-weight:700;text-transform:uppercase;border:1px solid}
+.s-pending{color:var(--warn);border-color:#ffd16655}.s-paid{color:var(--ok);border-color:#3ddc9755;background:#3ddc9718}
+.s-shipped{color:var(--ice);border-color:#7fdcff55}.s-delivered{color:var(--muted);border-color:var(--line)}.s-cancelled{color:var(--bad);border-color:#ff6b7a55}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:12px;font-size:.92rem}
+.grid small{display:block;color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em}
+.act{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+.act input{flex:1;min-width:170px;text-transform:uppercase}
+.muted{color:var(--muted)}
+.empty{text-align:center;color:var(--muted);margin-top:50px}
+#toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,80px);background:var(--ok);color:#012;padding:10px 20px;border-radius:30px;font-weight:700;transition:.3s}
+#toast.on{transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast"></div>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const brl = v => Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const dt = t => t ? new Date(t).toLocaleString("pt-BR",{dateStyle:"short",timeStyle:"short"}) : "-";
+const toast = t => { const el=$("#toast"); el.textContent=t; el.classList.add("on"); setTimeout(()=>el.classList.remove("on"),2200); };
+const LABEL = {pending:"Aguardando confirmação", paid:"Pago", shipped:"Enviado", delivered:"Entregue", cancelled:"Cancelado"};
+
+let pass = ""; try{ pass = sessionStorage.getItem("adm")||""; }catch(_){}
+let orders = [], tab = "pending", timer = null;
+
+async function api(method, body){
+  const r = await fetch("/api/admin", {
+    method, headers: {"Content-Type":"application/json","x-admin-password":pass},
+    body: body ? JSON.stringify(body) : undefined, cache:"no-store"
+  });
+  const d = await r.json().catch(()=>({}));
+  if(!r.ok) throw Object.assign(new Error(d.error||"Erro"), {status:r.status});
+  return d;
+}
+
+function loginView(msg){
+  clearInterval(timer);
+  $("#app").innerHTML = `<form class="login" id="lf"><h1 style="font-size:1.6rem">Painel Avalanche</h1>
+    <input type="password" id="pw" placeholder="Senha" autocomplete="current-password" autofocus>
+    <div class="err">${esc(msg||"")}</div><button class="btn">Entrar</button></form>`;
+  $("#lf").onsubmit = async e => {
+    e.preventDefault(); pass = $("#pw").value;
+    try{ await api("GET"); try{sessionStorage.setItem("adm",pass);}catch(_){} start(); }
+    catch(err){ loginView(err.status===401 ? "Senha incorreta" : err.message); }
+  };
+}
+
+async function refresh(){
+  try{ orders = (await api("GET")).orders; draw(); }
+  catch(err){ if(err.status===401){ try{sessionStorage.removeItem("adm");}catch(_){} loginView("Sessão expirada"); } }
+}
+function start(){
+  $("#app").innerHTML = `<div class="wrap"><header><h1>Pedidos</h1>
+    <div><button class="btn ghost" id="rf">Atualizar</button> <button class="btn ghost" id="lo">Sair</button></div></header>
+    <div class="tabs" id="tabs"></div><div id="list"></div></div>`;
+  $("#rf").onclick = refresh;
+  $("#lo").onclick = () => { try{sessionStorage.removeItem("adm");}catch(_){} pass=""; loginView(); };
+  refresh(); clearInterval(timer); timer = setInterval(refresh, 30000);
+}
+
+function draw(){
+  const cnt = s => orders.filter(o=>o.status===s).length;
+  const defs = [["pending","Confirmar pagamento"],["paid","Enviar"],["shipped","Enviados"],["delivered","Entregues"],["cancelled","Cancelados"]];
+  $("#tabs").innerHTML = defs.map(([k,l])=>`<button class="tab ${tab===k?"on":""}" data-t="${k}">${l} (${cnt(k)})</button>`).join("");
+  $("#tabs").querySelectorAll(".tab").forEach(b=>b.onclick=()=>{tab=b.dataset.t;draw();});
+  const list = orders.filter(o=>o.status===tab).sort((a,b)=> tab==="pending" ? ((b.claimedAt?1:0)-(a.claimedAt?1:0) || b.createdAt-a.createdAt) : 0);
+  $("#list").innerHTML = list.length ? list.map(card).join("") : '<p class="empty">Nenhum pedido aqui.</p>';
+  $("#list").querySelectorAll("[data-confirm]").forEach(b=>b.onclick=()=>confirmPay(b.dataset.confirm));
+  $("#list").querySelectorAll("[data-cancel]").forEach(b=>b.onclick=()=>cancelOrder(b.dataset.cancel));
+  $("#list").querySelectorAll("[data-ship]").forEach(b=>b.onclick=()=>ship(b.dataset.ship));
+  $("#list").querySelectorAll("[data-deliver]").forEach(b=>b.onclick=()=>deliver(b.dataset.deliver));
+}
+
+function card(o){
+  const a = o.address, c = o.customer;
+  const addr = `${esc(a.street)}, ${esc(a.number)}${a.complement?" - "+esc(a.complement):""}<br>${esc(a.district)}<br>${esc(a.city)}/${esc(a.state)} · CEP ${esc(a.cep)}`;
+  let act = "";
+  if(o.status==="pending"){
+    act = `<div class="act"><button class="btn" data-confirm="${o.id}">Confirmar pagamento (${brl(o.total)})</button>
+      <button class="btn ghost" data-cancel="${o.id}">Cancelar</button></div>
+      <p class="muted" style="margin-top:8px;font-size:.82rem">Confira no app do Banco do Brasil se entrou um Pix de ${brl(o.total)}${o.claimedAt?" de "+esc(c.name):""} antes de confirmar.</p>`;
+  } else if(o.status==="cancelled"){
+    act = `<div class="act"><button class="btn ghost" data-confirm="${o.id}">Cliente pagou mesmo assim: confirmar</button></div>`;
+  } else if(o.status==="paid" || o.status==="shipped"){
+    act = `<div class="act"><input id="t-${o.id}" maxlength="13" placeholder="Código dos Correios (AA123456789BR)" value="${esc(o.tracking||"")}">
+      <button class="btn" data-ship="${o.id}">${o.status==="paid"?"Marcar como enviado":"Atualizar código"}</button>
+      ${o.status==="shipped"?`<button class="btn ghost" data-deliver="${o.id}">Marcar entregue</button>`:""}</div>`;
+  }
+  return `<div class="order"><div class="top"><span class="id">#${esc(o.short)}</span>
+      <span>${o.status==="pending" && o.claimedAt ? '<span class="badge s-paid">Cliente avisou que pagou</span> ' : ""}<span class="badge s-${esc(o.status)}">${LABEL[o.status]||esc(o.status)}</span></span></div>
+    <div class="grid">
+      <div><small>Cliente</small>${esc(c.name)}<br><span class="muted">${esc(c.email)}<br>WhatsApp ${esc(c.phone)}</span></div>
+      <div><small>Entrega</small>${addr}</div>
+      <div><small>Itens</small>${o.items.map(i=>`${i.qty}x ${esc(i.name)}`).join("<br>")}<br><b>${brl(o.total)}</b></div>
+      <div><small>Datas</small>Pedido: ${dt(o.createdAt)}<br>Avisou: ${dt(o.claimedAt)}<br>Pago: ${dt(o.paidAt)}<br>Enviado: ${dt(o.shippedAt)}</div>
+    </div>${act}</div>`;
+}
+
+async function confirmPay(id){
+  if(!confirm("Confirmar que o Pix deste pedido entrou na conta?")) return;
+  try{ await api("POST",{id,action:"confirm"}); toast("Pagamento confirmado!"); await refresh(); }
+  catch(err){ alert(err.message); }
+}
+async function cancelOrder(id){
+  if(!confirm("Cancelar este pedido?")) return;
+  try{ await api("POST",{id,action:"cancel"}); toast("Pedido cancelado"); await refresh(); }
+  catch(err){ alert(err.message); }
+}
+async function ship(id){
+  const code = $("#t-"+id).value.trim().toUpperCase();
+  try{ await api("POST",{id,action:"ship",tracking:code}); toast("Salvo!"); await refresh(); }
+  catch(err){ alert(err.message); }
+}
+async function deliver(id){
+  if(!confirm("Marcar este pedido como entregue?")) return;
+  try{ await api("POST",{id,action:"deliver"}); toast("Pedido entregue!"); await refresh(); }
+  catch(err){ alert(err.message); }
+}
+
+if(pass){ api("GET").then(start).catch(()=>loginView()); } else loginView();
+</script>
+</body>
+</html>
