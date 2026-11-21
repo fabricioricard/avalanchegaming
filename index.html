@@ -3,10 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Avalanche Mousepads</title>
+<title>Avalanche Gaming</title>
+<link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#030814">
-<meta name="description" content="Mousepads gamer coleção Avalanche. Lobo e Dragão de gelo por R$ 99. Pague com Pix.">
+<meta name="description" content="Avalanche Gaming: mousepads gamer da coleção Avalanche. Lobo e Dragão de gelo por R$ 99. Pague com Pix.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -36,7 +38,8 @@ header{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-
   background:#040a16cc;backdrop-filter:blur(14px);border-bottom:1px solid #16345f99}
 header::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--ice),transparent);opacity:.5}
 .logo{font-size:1.8rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:10px;letter-spacing:.16em}
-.logo i{font-style:normal;color:var(--ice);text-shadow:0 0 18px var(--glow)}
+.logo img{height:46px;width:auto}
+.flogo{height:58px;width:auto}
 nav{display:flex;gap:28px;align-items:center}
 nav a.l{font-family:Oswald,Impact,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-weight:500;font-size:.95rem;color:var(--muted);transition:.2s}
 nav a.l:hover{color:var(--ice)}
@@ -44,7 +47,7 @@ nav a.l:hover{color:var(--ice)}
 .cartbtn:hover{border-color:var(--ice);background:#7fdcff14;box-shadow:0 0 24px #4cc3ff40}
 .cartbtn b{background:linear-gradient(135deg,var(--ice),var(--ice2));color:#021021;border-radius:999px;min-width:22px;text-align:center;padding:0 7px;font-size:.82rem;font-family:Inter,sans-serif;letter-spacing:0}
 @media(max-width:900px){nav a.l:not(#myOrder){display:none}nav{gap:14px}}
-@media(max-width:540px){nav .btn{display:none}.logo{font-size:1.5rem}}
+@media(max-width:540px){nav .btn{display:none}.logo img{height:38px}}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--ice),var(--ice2));color:#021021;padding:14px 32px;border-radius:999px;font-weight:600;border:0;cursor:pointer;font-size:1rem;letter-spacing:.1em;box-shadow:0 10px 34px #2b8cff55;transition:.25s}
@@ -145,7 +148,7 @@ footer p,footer li{color:var(--muted);font-size:.92rem}
 footer ul{list-style:none;display:grid;gap:8px}
 footer a:hover{color:var(--ice)}
 .cnpj{color:var(--text);font-weight:600;letter-spacing:.03em}
-.fbottom{max-width:1180px;margin:40px auto 0;padding-top:22px;border-top:1px solid #16345f88;color:var(--muted);font-size:.85rem}
+.fbottom{max-width:1180px;margin:40px auto 0;padding-top:22px;border-top:1px solid #16345f88;color:var(--muted);font-size:.85rem;text-align:center;line-height:1.8}
 
 @media(max-width:900px){
   .hero,.prod{grid-template-columns:1fr}
@@ -216,7 +219,7 @@ footer a:hover{color:var(--ice)}
 <canvas id="snow"></canvas>
 
 <header>
-  <a class="logo" href="#"><i>❄</i> Avalanche</a>
+  <a class="logo" href="#" aria-label="Avalanche Gaming"><img src="logo.svg" alt="Avalanche Gaming"></a>
   <nav>
     <a class="l" href="#produtos">Produtos</a>
     <a class="l" href="#como">Como comprar</a>
@@ -286,7 +289,6 @@ footer a:hover{color:var(--ice)}
       <details><summary>Como funciona o pagamento?</summary><p>O pagamento é feito por Pix. Ao finalizar o pedido, o site gera um QR Code com o valor exato. Depois de pagar, clique em "Já paguei". Nós conferimos o pagamento e você acompanha tudo em "Meu pedido", da confirmação até o código de rastreio.</p></details>
       <details><summary>Qual o prazo e o valor do frete?</summary><p id="faqFrete">Frete grátis via Correios.</p></details>
       <details><summary>Os dois modelos têm o mesmo preço?</summary><p>Sim, cada mousepad custa R$ 99.</p></details>
-      <details><summary>A loja tem CNPJ?</summary><p>Sim. CNPJ 70.053.930/0001-99.</p></details>
     </div>
   </section>
 </main>
@@ -294,7 +296,7 @@ footer a:hover{color:var(--ice)}
 <footer>
   <div class="fgrid">
     <div>
-      <div class="logo"><i>❄</i> Avalanche</div>
+      <img class="flogo" src="logo.svg" alt="Avalanche Gaming">
       <p style="margin-top:14px;max-width:340px">Mousepads gamer com arte exclusiva. Pague com Pix e receba pelos Correios, com frete grátis.</p>
     </div>
     <div>
@@ -303,10 +305,10 @@ footer a:hover{color:var(--ice)}
     </div>
     <div>
       <h4>Pagamento e entrega</h4>
-      <ul><li>Pix</li><li>Frete grátis pelos Correios</li><li class="cnpj">CNPJ 70.053.930/0001-99</li></ul>
+      <ul><li>Pix</li><li>Frete grátis pelos Correios</li></ul>
     </div>
   </div>
-  <div class="fbottom">© <span id="year"></span> Avalanche Mousepads. Todos os direitos reservados.</div>
+  <div class="fbottom">© <span id="year"></span> Avalanche Gaming. Todos os direitos reservados.<br><span class="cnpj">CNPJ 70.053.930/0001-99</span></div>
 </footer>
 
 <div id="overlay"></div>

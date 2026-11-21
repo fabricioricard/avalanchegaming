@@ -58,7 +58,7 @@ module.exports = async (req, res) => {
     const txid = "AV" + id.slice(0, 12).toUpperCase();
     const code = S.pixPayload({
       key: pixKey,
-      name: process.env.PIX_NAME || "AVALANCHE MOUSEPADS",
+      name: process.env.PIX_NAME || "AVALANCHE GAMING",
       city: process.env.PIX_CITY || "SALVADOR",
       amount: total,
       txid
