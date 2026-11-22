@@ -570,6 +570,15 @@ updateMyOrder();
 const topBtn = $("#top");
 addEventListener("scroll",()=>topBtn.classList.toggle("on",scrollY>600),{passive:true});
 topBtn.onclick = () => scrollTo({top:0,behavior:"smooth"});
+/* links do menu rolam até a seção sem colocar #hash na URL */
+document.addEventListener("click", e => {
+  const l = e.target.closest('a[href^="#"]'); if(!l) return;
+  const h = l.getAttribute("href");
+  if(h === "#"){ if(l.classList.contains("logo")){ e.preventDefault(); scrollTo({top:0,behavior:"smooth"}); } return; }
+  const t = document.getElementById(h.slice(1)); if(!t) return;
+  e.preventDefault(); t.scrollIntoView({behavior:"smooth"});
+  if(location.hash) history.replaceState(null,"",location.pathname+location.search);
+});
 
 render();
 </script>
