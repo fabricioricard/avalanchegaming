@@ -209,6 +209,21 @@ footer a:hover{color:var(--ice)}
 #pixOk .btn{display:inline-flex;width:100%}
 #lightbox{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;z-index:90;cursor:zoom-out;padding:20px}
 #lightbox.on{display:flex}#lightbox img{max-width:100%;max-height:100%;border-radius:14px}
+/* Meu pedido em destaque */
+.myorder{display:inline-flex;align-items:center;gap:9px;padding:9px 18px;border-radius:999px;border:1px solid var(--ice);background:linear-gradient(135deg,#7fdcff26,#2b8cff26);color:#fff;font-family:Oswald,Impact,sans-serif;text-transform:uppercase;letter-spacing:.1em;font-weight:500;font-size:.92rem;white-space:nowrap;box-shadow:0 0 22px #4cc3ff40;transition:.2s}
+.myorder:hover{background:linear-gradient(135deg,var(--ice),var(--ice2));color:#021021}
+.myorder.pulse{animation:mo 1.4s ease-in-out 4}
+@keyframes mo{0%,100%{box-shadow:0 0 22px #4cc3ff40}50%{box-shadow:0 0 0 7px #7fdcff30,0 0 38px #4cc3ffcc}}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--ice);flex:none;box-shadow:0 0 10px currentColor;color:var(--ice)}
+.st-pending .dot{background:#ffd166;color:#ffd166;animation:blink 1.2s infinite}.st-paid .dot{background:#3ddc97;color:#3ddc97}.st-shipped .dot{background:#7fdcff;color:#7fdcff}.st-delivered .dot{background:#8fb2d0;color:#8fb2d0}
+@keyframes blink{50%{opacity:.35}}
+#orderBar{position:fixed;left:16px;right:88px;bottom:18px;max-width:430px;z-index:40;display:none;align-items:center;gap:12px;padding:12px 40px 12px 16px;border-radius:16px;border:1px solid var(--ice);background:#061226f2;backdrop-filter:blur(10px);box-shadow:0 10px 40px #000a,0 0 30px #4cc3ff40;color:#fff;position:fixed}
+#orderBar.on{display:flex}
+#orderBar small{display:block;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em}
+#orderBar strong{display:block;font-size:.95rem;line-height:1.2}
+#orderBar em{margin-left:auto;font-style:normal;font-family:Oswald,Impact,sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--ice);font-size:.85rem;white-space:nowrap}
+#orderBar button{position:absolute;top:2px;right:6px;background:none;border:0;color:var(--muted);font-size:1.3rem;cursor:pointer;padding:4px 8px;line-height:1}
+@media(max-width:560px){header{gap:6px;padding:0 14px}.logo{flex:none}.logo img{height:28px}nav{gap:6px}.cartbtn{padding:7px 10px;font-size:.74rem;letter-spacing:.04em;gap:6px}#orderBar{right:84px;padding-right:34px}#orderBar em{display:none}.myorder{padding:7px 10px;font-size:.74rem;letter-spacing:.04em;gap:6px}}
 #toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,80px);background:var(--ok);color:#012;padding:10px 20px;border-radius:30px;font-weight:700;transition:.3s;z-index:100;opacity:0;pointer-events:none}
 #toast.on{transform:translate(-50%,0);opacity:1}
 #top{position:fixed;right:22px;bottom:22px;width:50px;height:50px;border-radius:50%;border:1px solid var(--ice);background:#061226e6;backdrop-filter:blur(8px);color:var(--ice);font-size:1.4rem;cursor:pointer;z-index:50;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(16px);transition:.3s;box-shadow:0 0 24px #2b8cff44}
@@ -226,7 +241,7 @@ footer a:hover{color:var(--ice)}
     <a class="l" href="#produtos">Produtos</a>
     <a class="l" href="#como">Como comprar</a>
     <a class="l" href="#faq">Dúvidas</a>
-    <a class="l" id="myOrder" href="#" style="display:none">Meu pedido</a>
+    <a class="myorder" id="myOrder" href="#" style="display:none"><i class="dot"></i><span>Meu pedido</span></a>
     <button class="cartbtn" id="openCart">Carrinho <b id="count">0</b></button>
     <a class="btn sm" href="#produtos">Comprar</a>
   </nav>
@@ -376,6 +391,7 @@ footer a:hover{color:var(--ice)}
 </div>
 
 <div id="lightbox"><img alt=""></div>
+<a id="orderBar" href="#" aria-live="polite"><i class="dot"></i><div><small>Seu pedido #<b id="obId"></b></small><strong id="obStatus"></strong></div><em>Acompanhar →</em><button type="button" id="obClose" aria-label="Fechar aviso">×</button></a>
 <div id="toast"></div>
 <button id="top" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
 
@@ -486,11 +502,32 @@ $("#uf").addEventListener("input",e=>e.target.value=e.target.value.toUpperCase()
 /* Pedido e Pix com confirmação automática */
 let poll = null, pollStart = 0, currentOrderId = null;
 const stopPoll = () => { clearInterval(poll); poll = null; };
-function updateMyOrder(){
+const ST = {pending:"Aguardando pagamento", paid:"Pagamento confirmado", shipped:"Enviado pelos Correios", delivered:"Entregue"};
+function updateMyOrder(pulse){
   let id = null; try{ id = localStorage.getItem("lastOrder"); }catch(_){}
-  const a = $("#myOrder");
-  if(id){ a.href = "order.html?id=" + encodeURIComponent(id); a.style.display = ""; }
+  const a = $("#myOrder"), bar = $("#orderBar");
+  if(!id){ a.style.display = "none"; bar.classList.remove("on"); return; }
+  const url = "order.html?id=" + encodeURIComponent(id);
+  a.href = url; bar.href = url; a.style.display = "";
+  if(pulse){ a.classList.remove("pulse"); void a.offsetWidth; a.classList.add("pulse"); }
+  fetch("/api/order?id=" + encodeURIComponent(id), {cache:"no-store"}).then(async r => {
+    if(r.status === 404){ try{ localStorage.removeItem("lastOrder"); }catch(_){} a.style.display = "none"; bar.classList.remove("on"); return; }
+    if(!r.ok) return;
+    const o = await r.json();
+    if(o.status === "cancelled"){ a.style.display = "none"; bar.classList.remove("on"); return; }
+    const cls = "st-" + o.status;
+    a.className = "myorder " + cls + (pulse ? " pulse" : ""); bar.className = cls;
+    $("#obId").textContent = o.short || ""; $("#obStatus").textContent = ST[o.status] || "";
+    let dismissed = false; try{ dismissed = sessionStorage.getItem("barOff") === id + ":" + o.status; }catch(_){}
+    if(o.status !== "delivered" && !dismissed) bar.classList.add("on");
+  }).catch(()=>{});
 }
+$("#obClose").onclick = e => {
+  e.preventDefault(); e.stopPropagation();
+  $("#orderBar").classList.remove("on");
+  try{ sessionStorage.setItem("barOff", localStorage.getItem("lastOrder") + ":" + ($("#orderBar").className.match(/st-(\w+)/)||[])[1]); }catch(_){}
+};
+setInterval(() => updateMyOrder(), 60000);
 function showPaid(id){
   stopPoll();
   $("#pixWait").style.display = "none";
@@ -539,14 +576,14 @@ $("#payBtn").onclick = async () => {
     if(!r.ok) throw new Error(d.error || "Erro ao gerar o Pix.");
     try{ localStorage.setItem("lastOrder", d.id); }catch(_){}
     cart = {}; save(); drawer(false);
-    showPix(d); startPoll(d.id); updateMyOrder();
+    showPix(d); startPoll(d.id); updateMyOrder(true);
   }catch(err){
     alert(err.message || "Erro ao gerar o Pix.");
   }finally{
     btn.disabled = false; btn.textContent = "Gerar Pix";
   }
 };
-$("#closePix").onclick = () => { stopPoll(); $("#pix").classList.remove("on"); };
+$("#closePix").onclick = () => { stopPoll(); $("#pix").classList.remove("on"); scrollTo({top:0,behavior:"smooth"}); updateMyOrder(true); toast("Acompanhe seu pedido em \"Meu pedido\" no topo"); };
 $("#paidBtn").onclick = async () => {
   const id = currentOrderId; if(!id) return;
   const b = $("#paidBtn"); b.disabled = true; b.textContent = "Enviando...";
