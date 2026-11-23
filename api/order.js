@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
           `💰 Pedido #${o.short}: ${o.customer.name} avisou que pagou ${brl(o.total)}.\n` +
           `${itens}\n` +
           `Confira o Pix no app do Banco do Brasil. Se entrou, toque em Confirmar abaixo.\n` +
-          `Painel: ${S.siteUrl(req)}/admin.html`,
+          `Painel: ${S.siteUrl(req)}/admin`,
           o.id
         );
       }
