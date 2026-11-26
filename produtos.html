@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mousepads | Avalanche Gaming</title>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#030814">
+<meta name="description" content="Mousepads gamer da coleção Avalanche. Lobo de Gelo e Dragão de Gelo por R$ 99, com frete grátis e pagamento por Pix.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
+<style>
+.page{max-width:1200px;margin:0 auto;padding:36px 6vw 90px}
+.crumbs{font-size:.88rem;color:var(--muted);margin-bottom:18px}
+.crumbs a:hover{color:var(--ice)}.crumbs span{margin:0 8px;opacity:.6}
+.ptitle{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:30px;padding-bottom:14px;border-bottom:1px solid #16345f88}
+.ptitle h1{font-size:clamp(2rem,5vw,3rem);line-height:1.05}
+.ptitle h1::after{content:"";display:block;width:84px;height:3px;margin-top:10px;background:linear-gradient(90deg,var(--ice),transparent)}
+.ptitle p{color:var(--muted);font-size:.95rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,360px));gap:28px}
+.card{position:relative;display:flex;flex-direction:column;background:linear-gradient(180deg,#0a1d38,#071428);border:1px solid #16345f;border-radius:6px;overflow:hidden;transition:.3s}
+.card:hover{transform:translateY(-6px);border-color:var(--ice);box-shadow:0 18px 50px #000a,0 0 40px #2b8cff44}
+.card .pic{position:relative;display:block;aspect-ratio:4/3;background:linear-gradient(135deg,#0f3a6b,#06142a);overflow:hidden}
+.card .pic img{width:100%;height:100%;object-fit:cover;transition:.6s}
+.card:hover .pic img{transform:scale(1.06)}
+.card .tag{position:absolute;top:12px;left:12px;background:linear-gradient(135deg,var(--ice),var(--ice2));color:#021021;font-family:Oswald,Impact,sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:.76rem;font-weight:600;padding:4px 12px;border-radius:999px}
+.card .body{display:flex;flex-direction:column;gap:10px;padding:18px 20px 22px;flex:1}
+.card h2{font-size:1.3rem;line-height:1.15}
+.card .sd{color:var(--muted);font-size:.9rem;line-height:1.5}
+.card .pr{margin-top:auto;padding-top:6px}
+.card .pr b{display:block;font-family:Oswald,Impact,sans-serif;font-size:1.9rem;color:#fff;letter-spacing:.02em;line-height:1.1}
+.card .pr small{display:block;color:var(--ok);font-size:.82rem;font-weight:600;margin-top:2px}
+.card .pr em{display:block;font-style:normal;color:var(--muted);font-size:.8rem}
+.card .row{display:flex;gap:10px;margin-top:10px}
+.card .row .btn{flex:1;padding:11px 14px;font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="bgfx"></div>
+
+<header>
+  <a class="logo" href="/" aria-label="Avalanche Gaming"><img src="logo.svg" alt="Avalanche Gaming"></a>
+  <nav>
+    <a class="l" href="/produtos">Produtos</a>
+    <a class="l" href="/#como">Como comprar</a>
+    <a class="l" href="/#faq">Dúvidas</a>
+    <a class="myorder" id="myOrder" href="/" style="display:none"><i class="dot"></i><span>Meu pedido</span></a>
+    <a class="cartbtn" id="openCart" href="/?cart=1">Carrinho <b id="count">0</b></a>
+    <a class="btn sm" href="/produtos">Comprar</a>
+  </nav>
+</header>
+
+<main class="page">
+  <div class="crumbs"><a href="/">Home</a><span>/</span><b style="color:var(--text);font-weight:500">Mousepads</b></div>
+  <div class="ptitle"><h1>Mousepads</h1><p id="found"></p></div>
+  <div class="cards" id="cards"></div>
+</main>
+
+<footer>
+  <div class="fgrid">
+    <div>
+      <img class="flogo" src="logo.svg" alt="Avalanche Gaming">
+      <p style="margin-top:14px;max-width:340px">Mousepads gamer com arte exclusiva. Pague com Pix e receba pelos Correios, com frete grátis.</p>
+    </div>
+    <div>
+      <h4>Loja</h4>
+      <ul><li><a href="/produtos">Produtos</a></li><li><a href="/#como">Como comprar</a></li><li><a href="/#faq">Dúvidas</a></li></ul>
+    </div>
+    <div>
+      <h4>Pagamento e entrega</h4>
+      <ul><li>Pix</li><li>Frete grátis pelos Correios</li></ul>
+    </div>
+    <div>
+      <h4>Siga a gente</h4>
+      <div class="social"><a href="https://www.instagram.com/avalanchegamingbrasil/" target="_blank" rel="noopener" aria-label="Instagram da Avalanche Gaming" title="Instagram"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg></a><a href="https://x.com/avalanchegbr" target="_blank" rel="noopener" aria-label="X da Avalanche Gaming" title="X"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a></div>
+    </div>
+  </div>
+  <div class="fbottom">© <span id="year"></span> Avalanche Gaming. Todos os direitos reservados.<br><span class="cnpj">CNPJ 70.053.930/0001-99</span></div>
+</footer>
+
+<button id="top" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
+<div id="toast"></div>
+<script src="/catalog.js"></script>
+<script src="/shop.js"></script>
+<script>
+const list = CATALOG.items;
+$("#found").textContent = "Exibindo " + list.length + (list.length === 1 ? " resultado" : " resultados");
+$("#cards").innerHTML = list.map(p => `
+  <article class="card">
+    <a class="pic" href="/produto?id=${esc(p.id)}" aria-label="Ver ${esc(p.name)}">
+      ${p.badge ? `<span class="tag">${esc(p.badge)}</span>` : ""}
+      <img src="${esc(p.img)}" alt="Mousepad ${esc(p.name)}" loading="lazy">
+    </a>
+    <div class="body">
+      <h2><a href="/produto?id=${esc(p.id)}">Mousepad ${esc(p.name)}</a></h2>
+      <p class="sd">${esc(p.short)}</p>
+      <div class="pr"><b>${brl(CATALOG.price)}</b><small>Pague no Pix · Frete grátis</small><em>Envio pelos Correios</em></div>
+      <div class="row">
+        <a class="btn ghost" href="/produto?id=${esc(p.id)}">Ver detalhes</a>
+        <button class="btn" data-add="${esc(p.id)}">Comprar</button>
+      </div>
+    </div>
+  </article>`).join("");
+$("#cards").addEventListener("click", e => {
+  const b = e.target.closest("[data-add]"); if(!b) return;
+  addToCart(b.dataset.add, 1); toast("Adicionado ao carrinho");
+});
+</script>
+</body>
+</html>

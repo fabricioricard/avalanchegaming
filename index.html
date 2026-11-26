@@ -238,12 +238,12 @@ footer a:hover{color:var(--ice)}
 <header>
   <a class="logo" href="#" aria-label="Avalanche Gaming"><img src="logo.svg" alt="Avalanche Gaming"></a>
   <nav>
-    <a class="l" href="#produtos">Produtos</a>
+    <a class="l" href="/produtos">Produtos</a>
     <a class="l" href="#como">Como comprar</a>
     <a class="l" href="#faq">Dúvidas</a>
     <a class="myorder" id="myOrder" href="#" style="display:none"><i class="dot"></i><span>Meu pedido</span></a>
     <button class="cartbtn" id="openCart">Carrinho <b id="count">0</b></button>
-    <a class="btn sm" href="#produtos">Comprar</a>
+    <a class="btn sm" href="/produtos">Comprar</a>
   </nav>
 </header>
 
@@ -254,7 +254,7 @@ footer a:hover{color:var(--ice)}
       <h1>Domine o gelo.<br><em>Domine o jogo.</em></h1>
       <p class="lead">Mousepads gamer com arte exclusiva e borda costurada. Escolha o seu guardião do gelo e pague na hora com Pix.</p>
       <div class="cta">
-        <a class="btn go" href="#produtos">Ver mousepads</a>
+        <a class="btn go" href="/produtos">Ver mousepads</a>
         <a class="btn ghost" href="#como">Como comprar</a>
       </div>
       <div class="stats">
@@ -316,7 +316,7 @@ footer a:hover{color:var(--ice)}
     </div>
     <div>
       <h4>Loja</h4>
-      <ul><li><a href="#produtos">Produtos</a></li><li><a href="#como">Como comprar</a></li><li><a href="#faq">Dúvidas</a></li></ul>
+      <ul><li><a href="/produtos">Produtos</a></li><li><a href="#como">Como comprar</a></li><li><a href="#faq">Dúvidas</a></li></ul>
     </div>
     <div>
       <h4>Pagamento e entrega</h4>
@@ -429,6 +429,7 @@ $("#grid").innerHTML = PRODUCTS.map((p,i)=>`
       <div class="tags">${p.tags.map(t=>`<span>${t}</span>`).join("")}</div>
       <div class="buy">
         <div class="price">${brl(CONFIG.price)}<small>no Pix · frete grátis</small></div>
+        <a class="btn ghost" href="/produto?id=${p.id}">Ver detalhes</a>
         <button class="btn go" data-add="${p.id}">Comprar</button>
       </div>
     </div>
@@ -477,6 +478,7 @@ document.addEventListener("click",e=>{
 });
 $("#lightbox").onclick = () => $("#lightbox").classList.remove("on");
 $("#openCart").onclick = () => drawer(true);
+if(new URLSearchParams(location.search).get("cart") === "1"){ drawer(true); history.replaceState(null,"",location.pathname); }
 $("#overlay").onclick = () => drawer(false);
 $("#toCheckout").onclick = () => step(2);
 $("#backCart").onclick = () => step(1);
